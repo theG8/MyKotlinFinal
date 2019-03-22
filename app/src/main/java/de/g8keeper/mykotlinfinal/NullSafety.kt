@@ -1,12 +1,39 @@
 package de.g8keeper.mykotlinfinal
 
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_nullsavety.*
 import java.io.Closeable
 import java.io.Serializable
 import java.lang.IllegalArgumentException
+import java.util.function.BinaryOperator
+import java.util.function.IntBinaryOperator
+
+
+@RequiresApi(Build.VERSION_CODES.N)
+enum class IntArithmetics : BinaryOperator<Int>, IntBinaryOperator {
+    PLUS {
+        override fun apply(t: Int, u: Int): Int = t + u
+    },
+
+    MINUS{
+        override fun apply(t: Int, u: Int): Int = t - u
+    },
+
+    MAL{
+        override fun apply(t: Int, u: Int): Int = t * u
+    },
+
+    GETEILT{
+        override fun apply(t: Int, u: Int): Int = t / u
+    };
+
+    override fun applyAsInt(left: Int, right: Int): Int = apply(left, right)
+}
+
 
 class NullSafety : AppCompatActivity() {
 
@@ -45,13 +72,13 @@ class NullSafety : AppCompatActivity() {
 
 
         for (itm in stringList) {
-            textView2.append("?itm mit länge $(itm.lenth)")
+            textView2.append("?itm mit länge $(itm.lenth)\n")
         }
 
 
         b = foo(Node("A","Sebastian"))
         val c : Int = b?.length ?: -1
-        textView2.append("\n\n $b")
+        textView2.append("\n\n $b\n")
 
         var str = "123444"
         val int: Int? = str.toInt()
@@ -59,8 +86,31 @@ class NullSafety : AppCompatActivity() {
 
         val runner = Runnable {
             Log.d("A","Thread läuft")
+            textView2.append("Thread läuft\n")
         }
         Thread(runner).start()
+
+
+
+        val a_num = 10
+        val b_num = 4
+
+        var arithmetics : IntArithmetics = IntArithmetics.PLUS
+
+        textView2.append("$arithmetics($a_num, $b_num) = ${arithmetics.applyAsInt(a_num, b_num)}\n")
+
+        arithmetics = IntArithmetics.MINUS
+
+        textView2.append("$arithmetics($a_num, $b_num) = ${arithmetics.applyAsInt(a_num, b_num)}\n")
+
+        arithmetics = IntArithmetics.MAL
+
+        textView2.append("$arithmetics($a_num, $b_num) = ${arithmetics.applyAsInt(a_num, b_num)}\n")
+
+        arithmetics = IntArithmetics.GETEILT
+
+        textView2.append("$arithmetics($a_num, $b_num) = ${arithmetics.applyAsInt(a_num, b_num)}\n")
+
     }
 
     fun foo(node: Node): String? {

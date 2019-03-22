@@ -6,34 +6,7 @@ import java.util.function.BinaryOperator
 import java.util.function.IntBinaryOperator
 import kotlin.text.Typography.greater
 
-@RequiresApi(Build.VERSION_CODES.N)
-enum class IntArithmetics : BinaryOperator<Int>, IntBinaryOperator{
-    PLUS {
-        override fun apply(t: Int, u: Int): Int {
-            
-        }
-    },
-    MINUS{
-        override fun apply(t: Int, u: Int): Int {
 
-        }
-    },
-    MAL{
-        override fun apply(t: Int, u: Int): Int {
-
-        }
-    },
-    GETEILT{
-        override fun apply(t: Int, u: Int): Int {
-
-        }
-    };
-
-    override fun applyAsInt(left: Int, right: Int): Int {
-
-    }
-
-}
 
 
 interface MyInterface {
@@ -89,6 +62,7 @@ class Parent1() : MyInterface, MyInterface2 {
 //                else -> field = value
 //            }
         }
+
 
     override fun foo() {
         super<MyInterface2>.prop1 + prop1
