@@ -1,38 +1,13 @@
 package de.g8keeper.mykotlinfinal
 
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_nullsavety.*
 import java.io.Closeable
 import java.io.Serializable
 import java.lang.IllegalArgumentException
-import java.util.function.BinaryOperator
-import java.util.function.IntBinaryOperator
-
-
-@RequiresApi(Build.VERSION_CODES.N)
-enum class IntArithmetics : BinaryOperator<Int>, IntBinaryOperator {
-    PLUS {
-        override fun apply(t: Int, u: Int): Int = t + u
-    },
-
-    MINUS{
-        override fun apply(t: Int, u: Int): Int = t - u
-    },
-
-    MAL{
-        override fun apply(t: Int, u: Int): Int = t * u
-    },
-
-    GETEILT{
-        override fun apply(t: Int, u: Int): Int = t / u
-    };
-
-    override fun applyAsInt(left: Int, right: Int): Int = apply(left, right)
-}
 
 
 class NullSafety : AppCompatActivity() {
@@ -111,6 +86,10 @@ class NullSafety : AppCompatActivity() {
 
         textView2.append("$arithmetics($a_num, $b_num) = ${arithmetics.applyAsInt(a_num, b_num)}\n")
 
+
+
+        button4.setOnClickListener {  startActivity(Intent(this,FunctionsAndMore::class.java)) }
+
     }
 
     fun foo(node: Node): String? {
@@ -120,12 +99,25 @@ class NullSafety : AppCompatActivity() {
     }
 
     //open muss vor class stehen, damit von der klasse geerbt werden kann
-    open class Node(val parent: String?, val name: String?){
+//    open class Node(val parent: String?, val name: String?){
+//        constructor():this(null,null)
+//
+//    }
+    data class Node(val parent: String?, val name: String?) : AllOfNode {
         constructor():this(null,null)
 
     }
 
-    class NodeChild(parent:String?,name:String?) : Node(parent, name), Serializable, Closeable {
+    data class Node2(val parent: String?, val name: String?, val ort: String? = null) : AllOfNode {
+        constructor():this(null,null)
+        fun fromNode(node: Node): Node2 = Node2(node.parent, node.name)
+
+    }
+
+    interface AllOfNode
+
+
+    class NodeChild(parent:String?,name:String?) : Serializable, Closeable {
         override fun close() {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
